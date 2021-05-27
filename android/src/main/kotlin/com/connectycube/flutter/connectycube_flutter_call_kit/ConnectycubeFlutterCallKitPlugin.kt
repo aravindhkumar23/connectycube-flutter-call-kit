@@ -62,7 +62,9 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler, Plugi
                     val callOpponents = ArrayList((arguments["call_opponents"] as String)
                             .split(',')
                             .map { it.toInt() })
-                    showCallNotification(applicationContext!!, callId, callType, callInitiatorId, callInitiatorName, callOpponents)
+                    val callInfo = arguments["call_info"] as String
+
+                    showCallNotification(applicationContext!!, callId, callType, callInitiatorId, callInitiatorName, callOpponents,callInfo)
 
                     saveCallState(callId, CALL_STATE_PENDING)
 
@@ -197,6 +199,7 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler, Plugi
         parameters["caller_id"] = intent.getIntExtra(EXTRA_CALL_INITIATOR_ID, -1)
         parameters["caller_name"] = intent.getStringExtra(EXTRA_CALL_INITIATOR_NAME)
         parameters["call_opponents"] = intent.getIntegerArrayListExtra(EXTRA_CALL_OPPONENTS)?.joinToString(separator = ",")
+        parameters["call_info"] = intent.getStringExtra(EXTRA_CALL_INFO)
 
         when (action) {
             ACTION_CALL_REJECT -> {
