@@ -23,6 +23,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
+import kotlin.system.exitProcess
 
 
 /** ConnectycubeFlutterCallKitPlugin */
@@ -68,6 +69,11 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler, Plugi
 
                     saveCallState(callId, CALL_STATE_PENDING)
 
+
+                    //open app when notification received
+                    val launchIntent = getLaunchIntent(applicationContext!!)
+                    applicationContext!!.startActivity(launchIntent)
+
                     result.success(null)
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, "")
@@ -97,6 +103,10 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler, Plugi
 
 
                     result.success(null)
+
+                    //kill app on call endeded
+                    exitProcess(0)
+
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, "")
                 }
