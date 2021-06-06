@@ -30,7 +30,14 @@ fun showCallNotification(context: Context, callId: String, callType: Int, callIn
                          callInitiatorName: String, callOpponents: ArrayList<Int>,callInfo: String) {
     val notificationManager = NotificationManagerCompat.from(context)
 
-    val intent = getLaunchIntent(context)
+//    val intent = getLaunchIntent(context)
+    val intent = Intent(context, IncomingCallActivity::class.java)
+    intent.putExtra(EXTRA_CALL_ID, callId)
+    intent.putExtra(EXTRA_CALL_TYPE, callType)
+    intent.putExtra(EXTRA_CALL_INITIATOR_ID, callInitiatorId)
+    intent.putExtra(EXTRA_CALL_INITIATOR_NAME, callInitiatorName)
+    intent.putIntegerArrayListExtra(EXTRA_CALL_OPPONENTS, callOpponents)
+    intent.putExtra(EXTRA_CALL_INFO, callInfo)
 
     val pendingIntent = PendingIntent.getActivity(context, callId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

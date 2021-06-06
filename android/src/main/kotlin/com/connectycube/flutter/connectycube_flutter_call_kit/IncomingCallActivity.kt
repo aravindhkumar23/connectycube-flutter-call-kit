@@ -1,6 +1,7 @@
 package com.connectycube.flutter.connectycube_flutter_call_kit
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -38,6 +39,7 @@ class IncomingCallActivity : Activity() {
     private var callInitiatorId = -1
     private var callInitiatorName: String? = null
     private var callOpponents: ArrayList<Int>? = ArrayList()
+    private var callInfo: String? = null
 
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
@@ -110,6 +112,7 @@ class IncomingCallActivity : Activity() {
         callInitiatorId = intent.getIntExtra(EXTRA_CALL_INITIATOR_ID, -1)
         callInitiatorName = intent.getStringExtra(EXTRA_CALL_INITIATOR_NAME)
         callOpponents = intent.getIntegerArrayListExtra(EXTRA_CALL_OPPONENTS)
+        callInfo = intent.getStringExtra(EXTRA_CALL_INFO)
     }
 
     private fun initUi() {
@@ -142,6 +145,7 @@ class IncomingCallActivity : Activity() {
         bundle.putInt(EXTRA_CALL_INITIATOR_ID, callInitiatorId)
         bundle.putString(EXTRA_CALL_INITIATOR_NAME, callInitiatorName)
         bundle.putIntegerArrayList(EXTRA_CALL_OPPONENTS, callOpponents)
+        bundle.putString(EXTRA_CALL_INFO, callInfo)
 
         val startCallIntent = Intent(this, EventReceiver::class.java)
         startCallIntent.action = ACTION_CALL_ACCEPT
