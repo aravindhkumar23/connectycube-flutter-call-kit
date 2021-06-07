@@ -9,6 +9,13 @@
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"
             android:taskAffinity="com.connectycube.flutter.connectycube_flutter_call_kit.INCOMING_CALL_AFFINITY"
-            android:theme="@android:style/Theme.Holo.NoActionBar" />
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:showOnLockScreen="true"/>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 </manifest>

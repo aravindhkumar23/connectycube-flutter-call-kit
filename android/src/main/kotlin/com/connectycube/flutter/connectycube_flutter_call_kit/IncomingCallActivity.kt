@@ -1,7 +1,7 @@
 package com.connectycube.flutter.connectycube_flutter_call_kit
 
 import android.app.Activity
-import android.app.PendingIntent
+import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,6 +14,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.Nullable
+import androidx.core.view.accessibility.AccessibilityEventCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 
@@ -45,15 +46,19 @@ class IncomingCallActivity : Activity() {
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setContentView(resources.getIdentifier("activity_incoming_call", "layout", packageName))
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
             setTurnScreenOn(true)
+            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            keyguardManager.requestDismissKeyguard(this, null)
         } else {
-            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
+
+        setContentView(resources.getIdentifier("activity_incoming_call", "layout", packageName))
 
         processIncomingData(intent)
         initUi()

@@ -105,7 +105,7 @@ class ConnectycubeFlutterCallKitPlugin : FlutterPlugin, MethodCallHandler, Plugi
                     result.success(null)
 
                     //kill app on call endeded
-                    exitProcess(0)
+//                    exitProcess(0)
 
                 } catch (e: Exception) {
                     result.error("ERROR", e.message, "")
