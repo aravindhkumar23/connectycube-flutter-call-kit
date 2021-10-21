@@ -8,6 +8,8 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class EventReceiver : BroadcastReceiver() {
@@ -39,7 +41,11 @@ class EventReceiver : BroadcastReceiver() {
 
                 LocalBroadcastManager.getInstance(context.applicationContext)
                         .sendBroadcast(broadcastIntent)
-
+                //added timer to execute after 500 milliseconds, useful on app killed status
+                //duplicate content will be ignored on flutter side
+                Timer("Trigger REJECT call back after some delay.", false).schedule(500) {
+                    LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(broadcastIntent)
+                }
                 NotificationManagerCompat.from(context).cancel(callId.hashCode())
             }
 
@@ -65,7 +71,11 @@ class EventReceiver : BroadcastReceiver() {
 
                 LocalBroadcastManager.getInstance(context.applicationContext)
                         .sendBroadcast(broadcastIntent)
-
+                //added timer to execute after 500 milliseconds, useful on app killed status
+                //duplicate content will be ignored on flutter side
+                Timer("Trigger ACCEPT call back after some delay.", false).schedule(500) {
+                    LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(broadcastIntent)
+                }
                 NotificationManagerCompat.from(context).cancel(callId.hashCode())
             }
 

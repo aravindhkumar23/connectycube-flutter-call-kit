@@ -16,6 +16,9 @@ import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.core.view.accessibility.AccessibilityEventCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 fun createStartIncomingScreenIntent(context: Context, callId: String, callType: Int, callInitiatorId: Int,
@@ -140,6 +143,11 @@ class IncomingCallActivity : Activity() {
         endCallIntent.action = ACTION_CALL_REJECT
         endCallIntent.putExtras(bundle)
         applicationContext.sendBroadcast(endCallIntent)
+        //added timer to execute after 500 milliseconds, useful on app killed status
+        //duplicate content will be ignored on flutter side
+        Timer("Trigger decline call back after some delay.", false).schedule(500) {
+            applicationContext.sendBroadcast(endCallIntent)
+        }
     }
 
     // calls from layout file
@@ -156,5 +164,10 @@ class IncomingCallActivity : Activity() {
         startCallIntent.action = ACTION_CALL_ACCEPT
         startCallIntent.putExtras(bundle)
         applicationContext.sendBroadcast(startCallIntent)
+        //added timer to execute after 500 milliseconds, useful on app killed status
+        //duplicate content will be ignored on flutter side
+        Timer("Trigger accept call back after some delay.", false).schedule(500) {
+            applicationContext.sendBroadcast(startCallIntent)
+        }
     }
 }
